@@ -13,4 +13,7 @@ app.use( config.CLIENT_URL, express.static( config.CLIENT_DIR ) )
 routes( app )
 
 app.listen( config.PORT )
-console.log( `La aplicacion esta escuchando en el http://localhost:${config.PORT}.` )
+console.log( `La aplicacion esta escuchando en el http://${config.HOSTNAME}:${config.PORT}.` )
+console.log( `La aplicacion en Heroku es: http://${process.env.HOST}.` )
+console.log( `process.env.HOST: ${process.env.HOST}.` )
+
