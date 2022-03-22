@@ -9,10 +9,10 @@ routes.get('/', function(req, res){
     // console.log(`req.body.opcion: ${req.body.opcion}`)
 
     // Mejor enviar datos por Json Body, parecido a post
-    const filtroCerveza = req.body || null
+    const filtroCerveza = req.query || req.body || null
     // const filtroCerveza = req.query.nombre_cerveza || req.body.nombre_cerveza || null
 
-    // console.log(filtroCerveza)
+    console.log(filtroCerveza)
 
     controller.obtenerCervezas(filtroCerveza)
         .then((data) => response.success(req, res, data))
