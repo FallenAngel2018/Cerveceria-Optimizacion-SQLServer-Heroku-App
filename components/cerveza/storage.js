@@ -1,38 +1,57 @@
 const pool = require('../../bd')
 const sql = require('mssql');
 
-async function obtenerProductos( filtroProducto ) {
-    // let results = null
-    // if (filtroProducto) {
-    //     results = await pool.query('SELECT * FROM producto WHERE nombre LIKE $1', [ '%' + filtroProducto + '%' ])
-    // } else {
-    //     results = await pool.query('SELECT * FROM producto')
-    // }
-    // return results.rows
+async function obtenerCervezas( filtroCerveza ) {
 
-    // Sql Server (mssql)
+    // Stored procedure
     const conn = await pool.getConnection();
-    var queryStr = "";
-    let results = null;
 
-    console.log(`filtroProducto: ${filtroProducto}`)
 
-    if (filtroProducto) {
-        // results = await pool.query('SELECT * FROM producto WHERE nombre LIKE $1', [ '%' + filtroProducto + '%' ])
+    const objeto = conn.request()
+        .input('opcion', sql.Int, filtroCerveza.opcion)
+        .execute('SP_Cervezas_ConsultarPorFiltros')
+    .then(result => {
+        // console.log(result);
+        // console.dir(result.recordsets[1]);
+        return result.recordsets[1];
+    }).catch(err => {
+        // ... error checks
+        console.dir(err);
+        console.log(err);
+    })
+
+
+    // console.log(objeto);
+
+    return objeto;
+
+
+    // Select puro
+
+    // // Sql Server (mssql)
+    // const conn = await pool.getConnection();
+    // var queryStr = "";
+    // let results = null;
+
+    // console.log(`filtroCerveza: ${filtroCerveza}`)
+
+    // if (filtroCerveza) {
+    //     // results = await pool.query('SELECT * FROM producto WHERE nombre LIKE $1', [ '%' + filtroCerveza + '%' ])
         
-        queryStr = `SELECT * FROM Cervezas WHERE nombre LIKE '%' + '${filtroProducto}' + '%'`;
+    //     queryStr = `SELECT * FROM Cervezas WHERE nombre LIKE '%' + '${filtroCerveza}' + '%'`;
         
-        results = await conn.request().query(queryStr);
-    } else {
-        // const result = await conn.request().query("");
-        queryStr = "SELECT * FROM Cervezas";
+    //     results = await conn.request().query(queryStr);
+    // } else {
+    //     // const result = await conn.request().query("");
+    //     queryStr = "SELECT * FROM Cervezas";
         
-        results = await conn.request().query(queryStr);
-    }
+    //     results = await conn.request().query(queryStr);
+    // }
 
-    // console.log(results.recordset);
+    // // console.log(results.recordset);
 
-    return results.recordset;
+    // return results.recordset;
+
 }
 
 async function agregarProducto( producto ) {
@@ -165,7 +184,7 @@ async function eliminarProducto( producto ) {
 }
 
 module.exports = {
-    obtener: obtenerProductos, 
+    obtener: obtenerCervezas, 
     agregar: agregarProducto,
     actualizar: actualizarProducto,
     eliminar: eliminarProducto,

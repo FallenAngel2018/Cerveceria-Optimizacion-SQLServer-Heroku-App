@@ -16,4 +16,5 @@ app.listen( config.PORT )
 console.log( `La aplicacion esta escuchando en el http://${config.HOSTNAME}:${config.PORT}.` )
 console.log( `La aplicacion en Heroku es: http://${process.env.HOST}.` )
 console.log( `process.env.HOST: ${process.env.HOST}.` )
+console.log( `process.env.DB_URL: ${process.env.DB_URL}.` )
 

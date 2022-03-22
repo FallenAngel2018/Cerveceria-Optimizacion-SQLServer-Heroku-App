@@ -6,11 +6,13 @@ const routes = express.Router()
 
 routes.get('/', function(req, res){
 
-    console.log(`req.body.nombre: ${req.body.nombre_cerveza}`)
-    console.log(`req.query.nombre: ${req.query.nombre}`)
+    // console.log(`req.body.opcion: ${req.body.opcion}`)
 
     // Mejor enviar datos por Json Body, parecido a post
-    const filtroCerveza = req.query.nombre_cerveza || req.body.nombre_cerveza || null
+    const filtroCerveza = req.body || null
+    // const filtroCerveza = req.query.nombre_cerveza || req.body.nombre_cerveza || null
+
+    // console.log(filtroCerveza)
 
     controller.obtenerCervezas(filtroCerveza)
         .then((data) => response.success(req, res, data))
